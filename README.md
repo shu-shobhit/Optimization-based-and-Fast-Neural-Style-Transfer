@@ -242,52 +242,6 @@ The function optimizes a random noise image using either **L-BFGS** or **Adam** 
 ```python
 def visualize_content_rep(self):
     print(f"Using Device: {self.device}")
-    
-    random_image = self.generate_white_noise(self.content_image, self.device)
-
-    original_img_features = self.model(self.content_image, self.content_layer)[0].detach()
-
-    progress_bar = tqdm(range(self.num_steps), desc="Optimizing", unit="step")
-
-    if self._optim == "LBFGS":
-        optimizer = optim.LBFGS([random_image], lr=self.lr)
-        for step in progress_bar:
-            current_loss = [0.0]
-
-            def closure():
-                optimizer.zero_grad()
-                random_img_features = self.model(random_image, self.content_layer)[0]
-                content_loss = torch.mean((original_img_features - random_img_features) ** 2)
-
-                content_loss.backward()
-                current_loss[0] = content_loss.item()
-                return content_loss
-
-            optimizer.step(closure)
-            progress_bar.set_postfix(loss=current_loss[0])
-
-    elif self._optim == "Adam":
-        optimizer = optim.Adam([random_image], lr=self.lr)
-        for step in progress_bar:
-            optimizer.zero_grad()
-            random_img_features = self.model(random_image, self.content_layer)[0]
-            content_loss = torch.mean((original_img_features - random_img_features) ** 2)
-            
-            content_loss.backward()
-            optimizer.step()
-            progress_bar.set_postfix(loss=content_loss.item())
-
-    generated_image = self.tensor_to_image(random_image)
-    plt.imshow(generated_image)
-    plt.axis("off")
-    plt.show()
-
-    return generated_image
-```
-
-```python
-def visualize_content_rep(self):
-    print(f"Using Device: {self.device}")
     random_image = self.generate_white_noise(self.content_image, self.device)
 
     original_img_features = self.model(self.content_image, self.content_layer)[0].detach()
@@ -328,6 +282,69 @@ def visualize_content_rep(self):
     plt.axis("off")
     plt.show()
     return generated_image
-
 ```
+
+```python
+def visualize_style_rep(self):
+    print(f"Using Device: {self.device}")
+    random_image = self.generate_white_noise(self.style_image, self.device)
+
+    original_style_features = self.model(self.style_image, self.style_layers_list)
+    original_gram_matrices = []
+    for f in original_style_features:
+        gram_matrix = self.get_gram_matrix(f)
+        original_gram_matrices.append(gram_matrix)
+
+    progress_bar = tqdm(range(self.num_steps), desc="Optimizing", unit="step")
+    if self._optim == "LBFGS":
+        optimizer = optim.LBFGS([random_image], lr=self.lr)
+        for step in progress_bar:
+            current_loss = [0.0]
+
+            def closure():
+                optimizer.zero_grad()
+                style_loss = torch.zeros([], device=self.device, requires_grad=True)
+
+                style_outputs = self.model(random_image, self.style_layers_list)
+                for idx, o in enumerate(style_outputs):
+                    G = self.get_gram_matrix(o)
+                    style_loss = torch.add(
+                        style_loss,
+                        torch.mean((G - original_gram_matrices[idx]) ** 2)
+                        * self.style_weights[idx],
+                    )
+
+                style_loss.backward()
+
+                current_loss[0] = style_loss.item()
+                return style_loss
+
+            optimizer.step(closure)
+            progress_bar.set_postfix(loss=current_loss[0])
+
+    elif self._optim == "Adam":
+        optimizer = optim.Adam([random_image], lr=self.lr)
+        for step in progress_bar:
+            optimizer.zero_grad()
+            style_loss = torch.zeros([], device=self.device, requires_grad=True)
+            style_outputs = self.model(random_image, self.style_layers_list)
+
+            for idx, o in enumerate(style_outputs):
+                G = self.get_gram_matrix(o)
+                style_loss = torch.add(
+                    self.style_weights[idx]
+                    * torch.mean((G - original_gram_matrices[idx]) ** 2),
+                    style_loss,
+                )
+
+            style_loss.backward()
+            optimizer.step()
+            progress_bar.set_postfix(loss=style_loss.item())
+    generated_image = self.tensor_to_image(random_image)
+    plt.imshow(generated_image)
+    plt.axis("off")
+    plt.show()
+    return generated_image
+```
+
 
