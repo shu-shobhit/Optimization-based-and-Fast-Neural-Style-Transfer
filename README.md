@@ -283,7 +283,7 @@ def visualize_content_rep(self):
     plt.show()
     return generated_image
 ```
-
+**Function to visualize the Style representation of a image at a particular layer.**
 ```python
 def visualize_style_rep(self):
     print(f"Using Device: {self.device}")
