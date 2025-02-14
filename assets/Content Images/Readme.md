@@ -1,3 +1,6 @@
 # Content Images:
 
-![Tuebingen Neckarfront](assets/Content%20Images/Tuebingen_Neckarfront.jpg)
+![Tuebingen Neckarfront](Tuebingen_Neckarfront.jpg)
+
+
+![Content Image](000000014473.jpg)
