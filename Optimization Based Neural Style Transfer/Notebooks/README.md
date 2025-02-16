@@ -1,4 +1,4 @@
-# Neural-Style-Transfer-and-Fast-Neural-Style-Transfer
+# Neural-Style-Transfer
 
 ## Summarizing the traditional NST
 
