@@ -22,30 +22,32 @@ To visualize the information captured by a particular layer, say $L$, we can sta
 
 ### Visualizing Content Representation:
 To do this, we forward pass the image $\overrightarrow{X}$ till layer $L$ and get its content representation at layer $L$, $F_x^L$ . Similarly, we get the content representation of the content image $C$, $F_c^L$. We define the mean square error loss function:
+```math
 $$
 Loss_{content} = \frac12 \sum_{i,j} ((F_x^L)_{ij}^2 - (F_c^L)_{ij}^2)
 $$
+```
 We get the gradient with respect to $\overrightarrow{X}$  by backpropagation and we iteratively change $\overrightarrow{X}$ through standard gradient descent.
 
 ### Visualizing Style Representation  
 To visualize the style of an image, we extract its style representation by computing the **Gram matrix** at a given layer $L$. The Gram matrix $G_x^L$ for an image $\overrightarrow{X}$ is defined as:  
-
+```math
 $$
 G_x^L = (F_x^L)(F_x^L)^T
 $$
-
+```
 Similarly, we compute the Gram matrix for the style image $S$:  
-
+```math
 $$
 G_s^L = (F_s^L)(F_s^L)^T
 $$
-
+```
 We define the **style loss function** as the mean square error between the Gram matrices:  
-
+```math
 $$
 Loss_{style} = \frac{1}{4N^2M^2} \sum_{i,j} \left( (G_x^L)_{ij} - (G_s^L)_{ij} \right)^2
 $$
-
+```
 where $N$ is the number of feature maps at layer $L$, and $M$ is the spatial dimension of the feature maps.
 
 We compute the gradient of this loss with respect to $\overrightarrow{X}$ using **backpropagation** and iteratively update $\overrightarrow{X}$ through **standard gradient descent** to match the style of the reference style image.
