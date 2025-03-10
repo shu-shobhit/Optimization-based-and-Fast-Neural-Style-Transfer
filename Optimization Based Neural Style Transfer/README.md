@@ -15,45 +15,55 @@ for a particular layer conv layer, we get feature correlations from the feature 
 
 "*The key finding of this paper is that the representations of content and style in the Convolutional Neural Network are separable. That is, we can manipulate both representations independently to produce new, perceptually meaningful images.*"
 ~ Gatys et. al.
-## Visualizing Content and Style Representations from Different Layers
 
+## Visualizing Content and Style Representations from Different Layers
 
 To visualize the information captured by a particular layer, say $L$, we can start with a random noise image, $X$, and iteratively update its pixel values so that its feature representation at layer $L$ closely matches (ideally, becomes equal to) the feature representation of a reference image. This reference image could be used to capture either content or style, depending on the objective.
 
 ### Visualizing Content Representation:
+
 To do this, we forward pass the image $\overrightarrow{X}$ till layer $L$ and get its content representation at layer $L$, $F_x^L$ . Similarly, we get the content representation of the content image $C$, $F_c^L$. We define the mean square error loss function:
+
 ```math
 $$
 Loss_{content} = \frac12 \sum_{i,j} ((F_x^L)_{ij}^2 - (F_c^L)_{ij}^2)
 $$
 ```
+
 We get the gradient with respect to $\overrightarrow{X}$  by backpropagation and we iteratively change $\overrightarrow{X}$ through standard gradient descent.
 
-### Visualizing Style Representation  
-To visualize the style of an image, we extract its style representation by computing the **Gram matrix** at a given layer $L$. The Gram matrix $G_x^L$ for an image $\overrightarrow{X}$ is defined as:  
+### Visualizing Style Representation
+
+To visualize the style of an image, we extract its style representation by computing the **Gram matrix** at a given layer $L$. The Gram matrix $G_x^L$ for an image $\overrightarrow{X}$ is defined as:
+
 ```math
 $$
 G_x^L = (F_x^L)(F_x^L)^T
 $$
 ```
-Similarly, we compute the Gram matrix for the style image $S$:  
+
+Similarly, we compute the Gram matrix for the style image $S$:
+
 ```math
 $$
 G_s^L = (F_s^L)(F_s^L)^T
 $$
 ```
-We define the **style loss function** as the mean square error between the Gram matrices:  
+
+We define the **style loss function** as the mean square error between the Gram matrices:
+
 ```math
 $$
 Loss_{style} = \frac{1}{4N^2M^2} \sum_{i,j} \left( (G_x^L)_{ij} - (G_s^L)_{ij} \right)^2
 $$
 ```
+
 where $N$ is the number of feature maps at layer $L$, and $M$ is the spatial dimension of the feature maps.
 
 We compute the gradient of this loss with respect to $\overrightarrow{X}$ using **backpropagation** and iteratively update $\overrightarrow{X}$ through **standard gradient descent** to match the style of the reference style image.
 
-
 ### CODE
+
 ```python
 import numpy as np
 import torch
@@ -69,6 +79,7 @@ import matplotlib.pyplot as plt
 ```
 
 ##### Modules in vgg19
+
 - **0**: conv1_1 - Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
 - **1**: ReLU(inplace=True)
 - **2**: conv1_2 - Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -144,7 +155,9 @@ class VGG19(nn.Module):
         return [out[key] for key in layer_keys]
 
 ```
+
 **Defining the Neural Style transfer Class:**
+
 ```python
 class NeuralStyleTransfer:
 
@@ -227,7 +240,8 @@ def tensor_to_image(tensor):
     return v2.ToPILImage()(tensor)
 ```
 
-**Static method for getting gram matrix** 
+**Static method for getting gram matrix**
+
 ```python
 @staticmethod
 def get_gram_matrix(input):
@@ -237,7 +251,7 @@ def get_gram_matrix(input):
     gram_matrix = torch.div(gram_matrix, height * width)
     return gram_matrix
 ```
-  
+
 **Function to visualize the content representation of a image at a particular layer.**
 The function optimizes a random noise image using either **L-BFGS** or **Adam** optimization.
 
@@ -285,7 +299,9 @@ def visualize_content_rep(self):
     plt.show()
     return generated_image
 ```
+
 **Function to visualize the Style representation of a image.**
+
 ```python
 def visualize_style_rep(self):
     print(f"Using Device: {self.device}")
@@ -350,6 +366,7 @@ def visualize_style_rep(self):
 ```
 
 ## Experiments
+
 ---
 
 ### Visualizing Content Representations at Different Layers:
@@ -357,60 +374,58 @@ def visualize_style_rep(self):
 <table>
   <tr>
     <td align="center">
-      <img src="./Content_Visualization/relu1_1.png" alt="Relu1_1" width="100%">
+      <img src="./Notebooks/Content_Visualization/relu1_1.png" alt="Relu1_1" width="100%">
       <br>Representation from Layer Relu1_1
     </td>
     <td align="center">
-      <img src="./Content_Visualization/relu2_1.png" alt="Relu2_1" width="100%">
+      <img src="./Notebooks/Content_Visualization/relu2_1.png" alt="Relu2_1" width="100%">
       <br>Representation from Layer Relu2_1
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="./Content_Visualization/relu3_1.png" alt="Relu3_1" width="100%">
+      <img src="./Notebooks/Content_Visualization/relu3_1.png" alt="Relu3_1" width="100%">
       <br>Representation from Layer Relu3_1
     </td>
     <td align="center">
-      <img src="./Content_Visualization/relu4_1.png" alt="Relu4_1" width="100%">
+      <img src="./Notebooks/Content_Visualization/relu4_1.png" alt="Relu4_1" width="100%">
       <br>Representation from Layer Relu4_1
     </td>
   </tr>
   <tr>
     <td align="center" colspan="2">
-      <img src="./Content_Visualization/relu5_1.png" alt="Relu5_1" width="50%">
+      <img src="./Notebooks/Content_Visualization/relu5_1.png" alt="Relu5_1" width="50%">
       <br>Representation from Layer Relu5_1
     </td>
   </tr>
 </table>
-
-
 
 ### Visualizing Style Representations at Different Layers:
 
 <table>
   <tr>
     <td align="center">
-      <img src="./Style_Visualization/relu1_1.png" alt="Relu1_1" width="100%">
+      <img src="./Notebooks/Style_Visualization/relu1_1.png" alt="Relu1_1" width="100%">
       <br>Relu1_1
     </td>
     <td align="center">
-      <img src="./Style_Visualization/relu1_1+relu2_1.png" alt="Relu1_1 + Relu2_1" width="100%">
+      <img src="./Notebooks/Style_Visualization/relu1_1+relu2_1.png" alt="Relu1_1 + Relu2_1" width="100%">
       <br>Relu1_1 + Relu2_1
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="./Style_Visualization/relu1_1+relu2_1+relu3_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1" width="100%">
+      <img src="./Notebooks/Style_Visualization/relu1_1+relu2_1+relu3_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1" width="100%">
       <br>Relu1_1 + Relu2_1 + Relu3_1
     </td>
     <td align="center">
-      <img src="./Style_Visualization/relu1_1+relu2_1+relu3_1+relu4_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1" width="100%">
+      <img src="./Notebooks/Style_Visualization/relu1_1+relu2_1+relu3_1+relu4_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1" width="100%">
       <br>Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1
     </td>
   </tr>
   <tr>
     <td align="center" colspan="2">
-      <img src="./Style_Visualization/relu1_1+relu2_1+relu3_1+relu4_1+relu5_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1 + Relu5_1" width="50%">
+      <img src="./Notebooks/Style_Visualization/relu1_1+relu2_1+relu3_1+relu4_1+relu5_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1 + Relu5_1" width="50%">
       <br>Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1 + Relu5_1
     </td>
   </tr>
