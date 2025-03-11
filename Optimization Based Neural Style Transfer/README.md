@@ -374,27 +374,27 @@ def visualize_style_rep(self):
 <table>
   <tr>
     <td align="center">
-      <img src="./Notebooks/Content_Visualization/relu1_1.png" alt="Relu1_1" width="100%">
+      <img src="./Notebooks/Content_Visualization_Results/relu1_1.png" alt="Relu1_1" width="100%">
       <br>Representation from Layer Relu1_1
     </td>
     <td align="center">
-      <img src="./Notebooks/Content_Visualization/relu2_1.png" alt="Relu2_1" width="100%">
+      <img src="./Notebooks/Content_Visualization_Results/relu2_1.png" alt="Relu2_1" width="100%">
       <br>Representation from Layer Relu2_1
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="./Notebooks/Content_Visualization/relu3_1.png" alt="Relu3_1" width="100%">
+      <img src="./Notebooks/Content_Visualization_Results/relu3_1.png" alt="Relu3_1" width="100%">
       <br>Representation from Layer Relu3_1
     </td>
     <td align="center">
-      <img src="./Notebooks/Content_Visualization/relu4_1.png" alt="Relu4_1" width="100%">
+      <img src="./Notebooks/Content_Visualization_Results/relu4_1.png" alt="Relu4_1" width="100%">
       <br>Representation from Layer Relu4_1
     </td>
   </tr>
   <tr>
     <td align="center" colspan="2">
-      <img src="./Notebooks/Content_Visualization/relu5_1.png" alt="Relu5_1" width="50%">
+      <img src="./Notebooks/Content_Visualization_Results/relu5_1.png" alt="Relu5_1" width="50%">
       <br>Representation from Layer Relu5_1
     </td>
   </tr>
@@ -405,27 +405,27 @@ def visualize_style_rep(self):
 <table>
   <tr>
     <td align="center">
-      <img src="./Notebooks/Style_Visualization/relu1_1.png" alt="Relu1_1" width="100%">
+      <img src="./Notebooks/Style_Visualization Results/relu1_1.png" alt="Relu1_1" width="100%">
       <br>Relu1_1
     </td>
     <td align="center">
-      <img src="./Notebooks/Style_Visualization/relu1_1+relu2_1.png" alt="Relu1_1 + Relu2_1" width="100%">
+      <img src="./Notebooks/Style_Visualization Results/relu1_1+relu2_1.png" alt="Relu1_1 + Relu2_1" width="100%">
       <br>Relu1_1 + Relu2_1
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="./Notebooks/Style_Visualization/relu1_1+relu2_1+relu3_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1" width="100%">
+      <img src="./Notebooks/Style_Visualization Results/relu1_1+relu2_1+relu3_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1" width="100%">
       <br>Relu1_1 + Relu2_1 + Relu3_1
     </td>
     <td align="center">
-      <img src="./Notebooks/Style_Visualization/relu1_1+relu2_1+relu3_1+relu4_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1" width="100%">
+      <img src="./Notebooks/Style_Visualization Results/relu1_1+relu2_1+relu3_1+relu4_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1" width="100%">
       <br>Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1
     </td>
   </tr>
   <tr>
     <td align="center" colspan="2">
-      <img src="./Notebooks/Style_Visualization/relu1_1+relu2_1+relu3_1+relu4_1+relu5_1.png" alt="Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1 + Relu5_1" width="50%">
+      <img src=".\Notebooks\Style_Visualization Results\relu_1 of every block.png" alt="Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1 + Relu5_1" width="50%">
       <br>Relu1_1 + Relu2_1 + Relu3_1 + Relu4_1 + Relu5_1
     </td>
   </tr>
