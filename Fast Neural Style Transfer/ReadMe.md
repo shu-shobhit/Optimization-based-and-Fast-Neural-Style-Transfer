@@ -22,18 +22,18 @@ Another method to solve this problem is to use "perceptual" losses as have been 
 
 The system for neural style transfer transformation task consists of two main components:
 
-1. **Image Transformation Network** $f_W$: A deep residual convolutional neural network that transforms an input image xx into an output image $\hat{y}$.
+1. **Image Transformation Network** $f_W$: A deep residual convolutional neural network that transforms an input image $x$ into an output image $\hat{y}$.
 2. **Loss Network** $\phi$: A pre-trained convolutional neural network used to define multiple loss functions $ℓ_1,…,ℓ_k$ for training.
 
 ### Image Transformation Network
 
 - The transformation network is parameterized by weights $W$ and maps input images to stylized output images as: $\hat{y} = f_W (x)$
 - It is trained using **stochastic gradient descent (SGD)** to minimize a weighted sum of loss functions:
-
+```math
 $$
 W^* = \arg\min_W \mathbb{E}_{x, \{y_i\}} \left[ \sum_{i=1}^{k} \lambda_i \ell_i(f_W(x), y_i) \right]
 $$
-
+```
 - The goal is to ensure the transformed image $\hat{y}$ captures the content of the input image $x$ while incorporating the style of a target image $y_s$
 
 ### Loss Functions and Perceptual Loss
