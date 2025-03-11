@@ -29,9 +29,11 @@ The system for neural style transfer transformation task consists of two main co
 
 - The transformation network is parameterized by weights $W$ and maps input images to stylized output images as: $\hat{y} = f_W (x)$
 - It is trained using **stochastic gradient descent (SGD)** to minimize a weighted sum of loss functions:
-
-$$W^* = \arg\min_W \mathbb{E}_{x, \{y_i\}} \left[ \sum_{i=1}^{k} \lambda_i \ell_i(f_W(x), y_i) \right]$$
-
+```math
+$$
+W^* = \arg\min_W \mathbb{E}_{x, \{y_i\}} \left[ \sum_{i=1}^{k} \lambda_i \ell_i(f_W(x), y_i) \right]
+$$
+```
 - The goal is to ensure the transformed image $\hat{y}$ captures the content of the input image $x$ while incorporating the style of a target image $y_s$
 
 ### Loss Functions and Perceptual Loss
