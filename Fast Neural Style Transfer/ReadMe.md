@@ -40,18 +40,58 @@ $$
 
 ---
 
-We use perceptual losses inspired by methods that optimize images using deep networks (traditional NST):
+**Loss Network:**
 
-- **Loss Network ($\phi$)**:
+- A pre-trained 16-layer VGG network ($\phi$) on the ImageNet dataset is utilized as the loss network.
+- $\phi_j(x)$ represents the activations of the $j$-th layer of $\phi$ when processing input image $x$.
+- For convolutional layers, $\phi_j(x)$ is a feature map of shape $C_j \times H_j \times W_j$, where $C_j$ is the number of channels, $H_j$ is the height, and $W_j$ is the width.
 
-  - A pre-trained CNN for image classification (VGG16 here) is used as a fixed loss network.
-  - It helps compute feature-based losses that measure differences in content and style.
-- **Feature Reconstruction Loss (Content Loss) $\ell_{\phi}^{\text{feat}}$**:
+**1. Feature Reconstruction Loss:**
 
-  - Measures the difference in high-level feature representations between $\hat{y}$ and content target $y_c$.
-- **Style Reconstruction Loss $\ell_{\phi}^{\text{style}}$**:
+- This loss encourages the output image $\hat{y} = f_W(x)$ to have similar feature representations as the target image $y$.
+- It is defined as the squared, normalized Euclidean distance between feature representations:
 
-  - Captures the difference in texture and style by comparing Gram matrices of feature maps.
+$$
+\phi_{,j}^{feat}(\hat{y}, y) = \frac{1}{C_j H_j W_j} ||\phi_j(\hat{y}) - \phi_j(y)||_2^2
+$$
+
+- Minimizing this loss for early layers of $\phi$ results in images visually indistinguishable from $y$.
+- Higher layers preserve content and spatial structure, but not color, texture, or exact shape.
+
+**2. Style Reconstruction Loss:**
+
+- This loss penalizes differences in style (colors, textures, patterns) between the output $\hat{y}$ and target $y$.
+- It utilizes the Gram matrix $G^{\phi}_j(x)$, which captures information about feature co-occurrence.
+- The Gram matrix is defined as:
+
+$$
+G^{\phi}_j(x)_{c, c'} = \frac{1}{C_j H_j W_j} \sum_{h=1}^{H_j} \sum_{w=1}^{W_j} \phi_j(x)_{h, w, c} \phi_j(x)_{h, w, c'}
+$$
+
+- Where $G^{\phi}_j(x)$ is a $C_j \times C_j$ matrix.
+- Equivalently, if $\psi$ is the reshaped version of $\phi_j(x)$ of shape $C_j \times H_j W_j$, then:
+
+$$
+G^{\phi}_j(x) = \frac{\psi \psi^T}{C_j H_j W_j}
+$$
+
+- The style reconstruction loss is the squared Frobenius norm of the difference between Gram matrices:
+
+$$
+\phi_{,j}^{style}(\hat{y}, y) = ||G^{\phi}_j(\hat{y}) - G^{\phi}_j(y)||_F^2
+$$
+
+- This loss is well-defined for different image sizes.
+- Minimizing this loss preserves stylistic features but not spatial structure.
+- Reconstructing from higher layers transfers larger-scale structures.
+
+**Style Reconstruction from Multiple Layers:**
+
+- For style reconstruction from a set of layers $J$, the total style loss is the sum of individual layer losses:
+
+$$
+\phi_{,J}^{style}(\hat{y}, y) = \sum_{j \in J} \phi_{,j}^{style}(\hat{y}, y)
+$$
 
 ### Training Process
 
