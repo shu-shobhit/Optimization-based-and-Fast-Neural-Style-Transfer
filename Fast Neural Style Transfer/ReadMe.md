@@ -50,11 +50,11 @@ $$
 
 - This loss encourages the output image $\hat{y} = f_W(x)$ to have similar feature representations as the target image $y$.
 - It is defined as the squared, normalized Euclidean distance between feature representations:
-
+```math
 $$
 \phi_{,j}^{feat}(\hat{y}, y) = \frac{1}{C_j H_j W_j} ||\phi_j(\hat{y}) - \phi_j(y)||_2^2
 $$
-
+```
 - Minimizing this loss for early layers of $\phi$ results in images visually indistinguishable from $y$.
 - Higher layers preserve content and spatial structure, but not color, texture, or exact shape.
 
@@ -63,24 +63,24 @@ $$
 - This loss penalizes differences in style (colors, textures, patterns) between the output $\hat{y}$ and target $y$.
 - It utilizes the Gram matrix $G^{\phi}_j(x)$, which captures information about feature co-occurrence.
 - The Gram matrix is defined as:
-
+```math
 $$
 G^{\phi}_j(x)_{c, c'} = \frac{1}{C_j H_j W_j} \sum_{h=1}^{H_j} \sum_{w=1}^{W_j} \phi_j(x)_{h, w, c} \phi_j(x)_{h, w, c'}
 $$
-
+```
 - Where $G^{\phi}_j(x)$ is a $C_j \times C_j$ matrix.
 - Equivalently, if $\psi$ is the reshaped version of $\phi_j(x)$ of shape $C_j \times H_j W_j$, then:
-
+```math
 $$
 G^{\phi}_j(x) = \frac{\psi \psi^T}{C_j H_j W_j}
 $$
-
+```
 - The style reconstruction loss is the squared Frobenius norm of the difference between Gram matrices:
-
+```math
 $$
 \phi_{,j}^{style}(\hat{y}, y) = ||G^{\phi}_j(\hat{y}) - G^{\phi}_j(y)||_F^2
 $$
-
+```
 - This loss is well-defined for different image sizes.
 - Minimizing this loss preserves stylistic features but not spatial structure.
 - Reconstructing from higher layers transfers larger-scale structures.
@@ -88,11 +88,11 @@ $$
 **Style Reconstruction from Multiple Layers:**
 
 - For style reconstruction from a set of layers $J$, the total style loss is the sum of individual layer losses:
-
+```math
 $$
 \phi_{,J}^{style}(\hat{y}, y) = \sum_{j \in J} \phi_{,j}^{style}(\hat{y}, y)
 $$
-
+```
 ### Training Process
 
 - The **content target** $y_c$ is the input image **$x$**.
