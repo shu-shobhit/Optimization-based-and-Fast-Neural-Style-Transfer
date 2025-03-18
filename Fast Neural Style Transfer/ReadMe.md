@@ -114,7 +114,6 @@ $$
 
 ## Results:
 
-
 <table>
   <tr>
     <td><b>Content Image</b></td>
@@ -132,9 +131,6 @@ $$
   </tr>
 </table>
 
-
-
-
 <table>
   <tr>
     <td><b>Content Image</b></td>
@@ -152,21 +148,19 @@ $$
   </tr>
 </table>
 
-
-
 <table>
   <tr>
     <td><b>Content Image</b></td>
     <td><b>Style Image</b></td>
   </tr>
   <tr>
-    <td><img src="assets\Contents\Tuebingen_Neckarfront.jpg" alt="Content Image" width="300"></td>
-    <td><img src="assets\styles\the-starry-night.jpg" alt="Style Image" width="300"></td>
+    <td><img src="assets\Contents\190430171751-mona-lisa.jpg" alt="Content Image" width="300"></td>
+    <td><img src="assets\styles\868625.jpg" alt="Style Image" width="300"></td>
   </tr>
   <tr>
     <td colspan="2" align="center"><b>Result Image</b></td>
   </tr>
   <tr>
-    <td colspan="2" align="center"><img src="Results\Starry Night\final_output.png" alt="Result Image" width="400"></td>
+    <td colspan="2" align="center"><img src="Results\The girl in the bar\final_output.png" alt="Result Image" width="400"></td>
   </tr>
 </table>

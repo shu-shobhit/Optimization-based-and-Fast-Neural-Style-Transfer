@@ -430,3 +430,20 @@ def visualize_style_rep(self):
     </td>
   </tr>
 </table>
+
+<table>
+  <tr>
+    <td><b>Content Image</b></td>
+    <td><b>Style Image</b></td>
+  </tr>
+  <tr>
+    <td><img src="assets\Content Images\Tuebingen_Neckarfront.jpg" alt="Content Image" width="300"></td>
+    <td><img src="assets\Style Images\the-starry-night.jpg" alt="Style Image" width="300"></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>Result Image</b></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="Notebooks\Style Transfer Results\Content_layer_relu3_1_style_1.png" alt="Result Image" width="400"></td>
+  </tr>
+</table>
